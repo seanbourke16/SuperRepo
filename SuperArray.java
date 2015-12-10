@@ -17,7 +17,7 @@ public class SuperArray implements ListInt{
  
     //~~~~~INSTANCE VARS~~~~~
     //underlying container, or "core" of this data structure:
-    private int[] _data;
+    private Comparable[] _data;
 
     //position of last meaningful value
     private int _lastPos;
@@ -30,7 +30,7 @@ public class SuperArray implements ListInt{
     //default constructor ¡V initializes 10-item array
     public SuperArray() 
     { 
-	_data = new int[10];
+	_data = new Comparable[10];
 	_lastPos = -1; //flag to indicate no lastpos yet
 	_size = 0;	
     }
@@ -55,7 +55,7 @@ public class SuperArray implements ListInt{
     //double capacity of this SuperArray
     private void expand() 
     { 
-	int[] temp = new int[ _data.length * 2 ];
+	Comparable[] temp = new Comparable[ _data.length * 2 ];
 	for( int i = 0; i < _data.length; i++ )
 	    temp[i] = _data[i];
 	_data = temp;
@@ -63,14 +63,14 @@ public class SuperArray implements ListInt{
 
 		
     //accessor -- return value at specified index
-    public int get( int index ) { return _data[index]; }
+    public Comparable get( int index ) { return _data[index]; }
 
 		
     //mutator -- set value at index to newVal, 
     //           return old value at index
-    public int set( int index, int newVal ) 
+    public Comparable set( int index, Comparable newVal ) 
     { 
- 	int temp = _data[index];
+ 	Comparable temp = _data[index];
 	_data[index] = newVal;
 	return temp;
     }
@@ -78,8 +78,8 @@ public class SuperArray implements ListInt{
 
     // ~~~~~~~~~~~~~~ PHASE II ~~~~~~~~~~~~~~
     //adds an item after the last item
-    public void add( int newVal ) {
-	int[] a = new int[_size + 1];
+    public void add( Comparable newVal ) {
+	Comparable[] a = new Comparable[_size + 1];
         for( int i = 0; i < _size; i++ ){
 	    a[i] = _data[i];
         }
@@ -92,8 +92,8 @@ public class SuperArray implements ListInt{
 
     //inserts an item at index
     //shifts existing elements to the right
-    public void add( int index, int newVal ) { 
-        int[] a = new int[_size + 1];
+    public void add( int index, Comparable newVal ) { 
+        Comparable[] a = new Comparable[_size + 1];
         for( int i = 0; i < index; i++ ){ 
 	    a[i] = _data[i];
         } 
@@ -110,7 +110,7 @@ public class SuperArray implements ListInt{
     //removes the item at index
     //shifts elements left to fill in newly-empted slot
     public void remove( int index ) { 
-        int[] a = new int[_size - 1];
+        Comparable[] a = new Comparable[_size - 1];
         for( int i = 0; i < index; i++ ){
 	    a[i] = _data[i];
 	}
@@ -128,7 +128,23 @@ public class SuperArray implements ListInt{
 	return _size;
     }
 
+    public int linSearch(Comparable c){
+	for (int x=0;x<_data.length;x++){
+	    if (c.equals(_data[x])){
+		return x;
+	    }
+	}
+	return -1;
+    }
 
+    public boolean isSorted(){
+	for (int x=0;x<_data.length-1;x++){
+	    if (_data[x].compareTo(_data[x+1])<0){
+		return false;
+	    }
+	}
+	return true;
+    }
     //main method for testing
     public static void main( String[] args ) 
     {
@@ -137,7 +153,17 @@ public class SuperArray implements ListInt{
 	System.out.println(curtis);
 
 	for( int i = 0; i < curtis._data.length; i++ ) {
-	    curtis.set(i,i*2);
+	    int n = (int)(Math.random()*3);
+	    if (n==0){
+		curtis.set(i,new Rational((int)(Math.random()*100),(int)(Math.random()*100+1)));
+		System.out.println(i);
+	    }
+	    if (n==1){
+		curtis.set(i,new Binary((int)(Math.random()*100)));
+	    }
+	    else{
+		curtis.set(i,new Hexadecimal((int)(Math.random()*100)));
+	    }
 	    curtis._size++; //necessary bc no add() method yet
 	}
 
@@ -153,7 +179,19 @@ public class SuperArray implements ListInt{
 	System.out.println("Expanded SuperArray curtis:");
 	curtis.expand();
 	System.out.println(curtis);
-
+	System.out.println(curtis.isSorted());
+	//System.out.println(curtis.linSearch(14));
+	//System.out.println(curtis.linSearch(""));
+	//System.out.println(curtis.linSearch(""));
+	SuperArray jim=new SuperArray();
+	for(int x=0;x<jim._data.length;x++){
+	    jim.set(x,new Binary(x));
+	}
+	System.out.println(jim.isSorted());
+	jim.expand();
+	jim.add(3,new Hexadecimal(3));
+	System.out.println(jim.isSorted());
+	/*
 	SuperArray mayfield = new SuperArray();
 	System.out.println("Printing empty SuperArray mayfield...");
 	System.out.println(mayfield);

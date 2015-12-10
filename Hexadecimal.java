@@ -3,7 +3,7 @@
 //HW44 -- This or That or Fouteen Other Things
 //2015-12-08
 
-public class Hexadecimal {
+public class Hexadecimal implements Comparable{
 
     private int _decNum;
     private String _hexNum;
@@ -139,7 +139,13 @@ public class Hexadecimal {
       post: Returns true if this and other are aliases (pointers to same 
       Object), or if this and other represent equal hexadecimal values
       =============================================*/
-    public boolean equals( Object other ) { 
+    public boolean equals( Object other ) {
+	if (other==null){
+	    throw new NullPointerException("Error the input is null");
+	}
+	if(!(other instanceof Hexadecimal)){
+	    throw new ClassCastException("Error the input is not Hexadecimal");
+	}
 	Hexadecimal o=(Hexadecimal)other;
 	return (this._hexNum.equals(o._hexNum));   
     }
@@ -152,6 +158,12 @@ public class Hexadecimal {
       negative integer if this<input, positive integer otherwise
       =============================================*/
     public int compareTo( Object other ) {
+	if (other==null){
+	    throw new NullPointerException("Error the input is null");
+	}
+	if(!(other instanceof Hexadecimal)){
+	    throw new ClassCastException("Error the input is not Hexadecimal");
+	}
 	Hexadecimal o=(Hexadecimal)other;
 	return (int)(this._decNum-o._decNum);
     }
@@ -177,7 +189,8 @@ public class Hexadecimal {
 	Hexadecimal h2 = new Hexadecimal(5);
 	Hexadecimal h3 = h1;
 	Hexadecimal h4 = new Hexadecimal(7);
-
+	Hexadecimal h5 = null;
+	Binary b1 = new Binary();
 	System.out.println( h1 );
 	System.out.println( h2 );
 	System.out.println( h3 );       
@@ -193,7 +206,9 @@ public class Hexadecimal {
 	System.out.println( h3.equals(h1) ); //should be true
 	System.out.println( h4.equals(h2) ); //should be false
 	System.out.println( h1.equals(h4) ); //should be false
-
+	//System.out.println( h1.equals(h5) ); //should be error
+	//System.out.println( h1.equals(b1) ); //should be error
+	
 	System.out.println( "\n.compareTo..." );
 	System.out.println( h1.compareTo(h2) ); //should be 0
 	System.out.println( h1.compareTo(h3) ); //should be 0

@@ -3,7 +3,7 @@
 //HW 43 -- This or That
 //2014-12-07
 
-public class Binary {
+public class Binary implements Comparable{
 
     private int _decNum;
     private String _binNum;
@@ -139,8 +139,11 @@ public class Binary {
       Object), or if this and other represent equal binary values
       =============================================*/
     public boolean equals( Object other ) {
-	if (!(other instanceof Binary)){
-		throw new ClassCastException("Not a binary imput");
+        if (other==null){
+	    throw new NullPointerException("Error the input is null");
+	}
+	if(!(other instanceof Hexadecimal)){
+	    throw new ClassCastException("Error the input is not Hexadecimal");
 	}
 	Binary o=(Binary)other;
 	return (this._binNum.equals(o._binNum));
@@ -154,6 +157,12 @@ public class Binary {
       negative integer if this<input, positive integer otherwise
       =============================================*/
     public int compareTo( Object other ) {
+	if (other==null){
+	    throw new NullPointerException("Error the input is null");
+	}
+	if(!(other instanceof Hexadecimal)){
+	    throw new ClassCastException("Error the input is not Hexadecimal");
+	}
 	Binary o=(Binary)other;
 	return (int)(this._decNum-o._decNum);
     }
@@ -170,11 +179,13 @@ public class Binary {
 	Binary b2 = new Binary(5);
 	Binary b3 = b1;
 	Binary b4 = new Binary(7);
+	Binary b5 = null;
+	Hexadecimal h1 = new Hexadecimal();
 
 	System.out.println( b1 );
 	System.out.println( b2 );
 	System.out.println( b3 );       
-	System.out.println( b4 );       
+	System.out.println( b4 );
 
 	System.out.println( "\n==..." );
 	System.out.println( b1 == b2 ); //should be false
@@ -186,6 +197,8 @@ public class Binary {
 	System.out.println( b3.equals(b1) ); //should be true
 	System.out.println( b4.equals(b2) ); //should be false
 	System.out.println( b1.equals(b4) ); //should be false
+	System.out.println( b1.equals(b5) ); //should be error
+	System.out.println( b1.equals(h1) ); //should be error
 
 	System.out.println( "\n.compareTo..." );
 	System.out.println( b1.compareTo(b2) ); //should be 0
